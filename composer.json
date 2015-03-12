@@ -1,0 +1,13 @@
+{
+  "name": "flowpack/twitter-api",
+  "type": "typo3-flow-package",
+  "description": "Twitter API methods",
+  "require": {
+    "typo3/flow": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Flowpack\\TwitterApi\\": "Classes"
+    }
+  }
+}

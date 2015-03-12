@@ -1,0 +1,18 @@
+Flowpack\TwitterApi\Authentication\Application:
+  properties:
+    requestEngine:
+      object:
+        className: TYPO3\Flow\Http\Client\CurlEngine
+    cache:
+      object:
+        factoryObjectName: TYPO3\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: Flowpack_TwitterApi_Authentication
+
+Flowpack\TwitterApi\Authentication\TwitterOAuthProvider:
+  properties:
+    requestEngine:
+      object:
+        className: TYPO3\Flow\Http\Client\CurlEngine

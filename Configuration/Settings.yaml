@@ -1,0 +1,16 @@
+Flowpack:
+  TwitterApi:
+    authentication:
+      application:
+        consumerKey: # ENTER YOUR APPS CONSUMER KEY HERE
+        consumerSecret: # ENTER YOUR APPS CONSUMER SECRET HERE
+
+
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          TwitterOAuthProvider:
+            provider: 'Flowpack\TwitterApi\Authentication\TwitterOAuthProvider'
+            providerOptions: []
