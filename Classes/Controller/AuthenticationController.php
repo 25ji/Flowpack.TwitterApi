@@ -1,6 +1,7 @@
 <?php
 namespace Flowpack\TwitterApi\Controller;
 
+use Flowpack\TwitterApi\Exception;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
 
@@ -19,7 +20,10 @@ class AuthenticationController extends AbstractAuthenticationController {
 	protected $client;
 
 	/**
+	 * Initializes the Twitter Authentication process. Will redirect to twitter for the user to login, setting the oauth callback url to this controllers authenticate method.
+	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function loginAction() {
 		$uri = new \TYPO3\Flow\Http\Uri('https://api.twitter.com/oauth/request_token');
@@ -31,9 +35,7 @@ class AuthenticationController extends AbstractAuthenticationController {
 		$responseData = array();
 		parse_str($response->getContent(), $responseData);
 		if ($response->getStatusCode() !== 200 || !isset($responseData['oauth_callback_confirmed']) || $responseData['oauth_callback_confirmed'] !== 'true') {
-//			\TYPO3\Flow\var_dump($request);
-//			\TYPO3\Flow\var_dump($response);
-			throw new \Flowpack\TwitterApi\Exception($response->getStatus(), 1426084485);
+			throw new Exception($response->getStatus(), 1426084485);
 		}
 
 		$this->requestSignatureGenerator->setTokenData($responseData['oauth_token'], $responseData['oauth_token_secret']);
@@ -56,8 +58,10 @@ class AuthenticationController extends AbstractAuthenticationController {
 	 * @return string
 	 */
 	protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL) {
-		return "TWITTER AUTHENTICATED!";
+		if ($originalRequest !== NULL) {
+			$this->redirectToRequest($originalRequest);
+		}
+		$this->redirectToUri($this->request->getHttpRequest()->getBaseUri());
 	}
-
 
 }
