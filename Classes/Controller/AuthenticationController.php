@@ -5,6 +5,10 @@ use Flowpack\TwitterApi\Exception;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
 
+/**
+ * Class AuthenticationController
+ *
+ */
 class AuthenticationController extends AbstractAuthenticationController {
 
 	/**

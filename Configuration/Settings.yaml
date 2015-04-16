@@ -2,8 +2,8 @@ Flowpack:
   TwitterApi:
     authentication:
       application:
-        consumerKey: # ENTER YOUR APPS CONSUMER KEY HERE
-        consumerSecret: # ENTER YOUR APPS CONSUMER SECRET HERE
+        consumerKey: RRiKIZ6gYrIcLJbcEIPMuLEKT
+        consumerSecret: rIy0X5CslqrcR6pi13JRCKdJV6r3wJLUiJtic9A7XWMo0XhxGn
 
 
 TYPO3:

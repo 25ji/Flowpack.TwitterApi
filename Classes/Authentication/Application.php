@@ -2,6 +2,8 @@
 namespace Flowpack\TwitterApi\Authentication;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Http\Request;
+use TYPO3\Flow\Http\Uri;
 
 
 /**
@@ -41,10 +43,10 @@ class Application implements AuthenticationInterface {
 	/**
 	 * Adds the bearer authorization header to the given request and returns the request.
 	 *
-	 * @param \TYPO3\Flow\Http\Request $request
-	 * @return \TYPO3\Flow\Http\Request
+	 * @param Request $request
+	 * @return Request
 	 */
-	public function authorizeRequest(\TYPO3\Flow\Http\Request $request) {
+	public function authorizeRequest(Request $request) {
 		$request->setHeader('Authorization', 'Bearer ' . $this->getToken());
 		return $request;
 	}
@@ -70,13 +72,15 @@ class Application implements AuthenticationInterface {
 		if ($token === FALSE) {
 			$bearerTokenCredentials = base64_encode(urlencode($key) . ':' . urlencode($secret));
 
-			$uri = new \TYPO3\Flow\Http\Uri('https://api.twitter.com/oauth2/token');
-			$httpRequest = \TYPO3\Flow\Http\Request::create($uri, 'POST', array('grant_type' => 'client_credentials'));
+			$uri = new Uri('https://api.twitter.com/oauth2/token');
+			$httpRequest = Request::create($uri, 'POST');
+			$httpRequest->setContent(http_build_query(array('grant_type' => 'client_credentials')));
 			$httpRequest->setHeader('Authorization', 'Basic ' . $bearerTokenCredentials);
+			$httpRequest->setHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
 
 			$response = $this->requestEngine->sendRequest($httpRequest);
 			$authenticationReponseBody = json_decode($response->getContent(), TRUE);
-			if ($authenticationReponseBody['token_type'] !== 'bearer' || !isset($authenticationReponseBody['access_token'])) {
+			if (!isset($authenticationReponseBody['token_type']) || $authenticationReponseBody['token_type'] !== 'bearer' || !isset($authenticationReponseBody['access_token'])) {
 				throw new \Exception('Invalid authentication answer! Your application could not authenticate with Twitter.', 1424698337);
 			}
 

@@ -21,7 +21,7 @@ class TweetRepository extends AbstractApiRepository {
 	 */
 	public function findOneById($id) {
 		$response = $this->get($this->baseUri . 'show.json', array('id' => $id));
-
+		var_dump($response);
 		return $this->mapResponseToObjects($response, Tweet::class);
 	}
 
@@ -36,5 +36,26 @@ class TweetRepository extends AbstractApiRepository {
 		return $this->mapToObjects($data['statuses'], 'array<\\' . Tweet::class . '>');
 	}
 
+	/**
+	 * Find tweet by status URL (https://twitter.com/GBKS/status/581881003582595072)
+	 *
+	 * @param string $url
+	 * @return Tweet|NULL
+	 */
+	public function findByUrl($url) {
+		$url = new \TYPO3\Flow\Http\Uri($url);
+
+		if (strpos($url->getHost(), 'twitter.com') === FALSE) {
+			return NULL;
+		}
+
+		list($username, $operation, $id) = explode('/', trim($url->getPath(), '/'));
+
+		if ($operation !== 'status') {
+			return NULL;
+		}
+
+		return $this->findOneById($id);
+	}
 
 }
