@@ -44,6 +44,7 @@ abstract class AbstractApiRepository {
 	protected function get($endpoint, $get = array()) {
 		$uri = new \TYPO3\Flow\Http\Uri($endpoint);
 		$request = \TYPO3\Flow\Http\Request::create($uri, 'GET', $get);
+		$request->setContent('');
 		$request = $this->authentication->authorizeRequest($request);
 		$response = $this->requestEngine->sendRequest($request);
 

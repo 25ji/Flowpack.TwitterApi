@@ -21,7 +21,7 @@ class TweetRepository extends AbstractApiRepository {
 	 */
 	public function findOneById($id) {
 		$response = $this->get($this->baseUri . 'show.json', array('id' => $id));
-		var_dump($response);
+
 		return $this->mapResponseToObjects($response, Tweet::class);
 	}
 

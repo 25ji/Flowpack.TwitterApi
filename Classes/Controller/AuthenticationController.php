@@ -34,6 +34,7 @@ class AuthenticationController extends AbstractAuthenticationController {
 		$request = \TYPO3\Flow\Http\Request::create($uri, 'POST');
 		$callbackUri = $this->uriBuilder->reset()->setCreateAbsoluteUri(TRUE)->uriFor('authenticate', array(), $this->request->getControllerName(), $this->request->getControllerPackageKey(), $this->request->getControllerSubpackageKey());
 		$request = $this->requestSignatureGenerator->signRequest($request, $callbackUri);
+		$request->setContent('');
 
 		$response = $this->client->sendRequest($request);
 		$responseData = array();
