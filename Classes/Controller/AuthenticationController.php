@@ -32,9 +32,9 @@ class AuthenticationController extends AbstractAuthenticationController {
 	public function loginAction() {
 		$uri = new \TYPO3\Flow\Http\Uri('https://api.twitter.com/oauth/request_token');
 		$request = \TYPO3\Flow\Http\Request::create($uri, 'POST');
+		$request->setContent('');
 		$callbackUri = $this->uriBuilder->reset()->setCreateAbsoluteUri(TRUE)->uriFor('authenticate', array(), $this->request->getControllerName(), $this->request->getControllerPackageKey(), $this->request->getControllerSubpackageKey());
 		$request = $this->requestSignatureGenerator->signRequest($request, $callbackUri);
-		$request->setContent('');
 
 		$response = $this->client->sendRequest($request);
 		$responseData = array();
