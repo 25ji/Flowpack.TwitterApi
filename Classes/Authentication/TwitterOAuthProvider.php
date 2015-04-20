@@ -12,6 +12,7 @@ use TYPO3\Flow\Security\Authentication\Provider\AbstractProvider;
 use TYPO3\Flow\Security\Authentication\TokenInterface;
 use TYPO3\Flow\Security\Context;
 use TYPO3\Flow\Security\Exception\UnsupportedAuthenticationTokenException;
+use TYPO3\Flow\Security\Policy\PolicyService;
 
 /**
  * Class TwitterOAuthProvider
@@ -49,6 +50,12 @@ class TwitterOAuthProvider extends AbstractProvider {
 	 * @var Context
 	 */
 	protected $securityContext;
+
+	/**
+	 * @Flow\Inject
+	 * @var PolicyService
+	 */
+	protected $policyService;
 
 	/**
 	 * Returns the classnames of the tokens this provider is responsible for.
@@ -132,9 +139,11 @@ class TwitterOAuthProvider extends AbstractProvider {
 			$account = $accountRepository->findByAccountIdentifierAndAuthenticationProviderName($userData['screen_name'], $providerName);
 		});
 		if ($account === NULL) {
+			$defaultRole = $this->policyService->getRole('Flowpack.TwitterApi:AuthenticatedUser');
 			$account = new Account();
 			$account->setAccountIdentifier($userData['screen_name']);
 			$account->setAuthenticationProviderName($providerName);
+			$account->addRole($defaultRole);
 			$this->accountRepository->add($account);
 		}
 
