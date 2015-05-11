@@ -610,4 +610,13 @@ class Tweet implements CacheAwareInterface, TwitterApiObjectInterface {
 	public function setMetadata($metadata) {
 		$this->metadata = $metadata;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getStatusUrl() {
+		$url = 'https://twitter.com/' . $this->getUser()->getCacheEntryIdentifier() . '/status/' . $this->getCacheEntryIdentifier();
+
+		return $url;
+	}
 }

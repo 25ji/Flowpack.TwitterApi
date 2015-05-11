@@ -44,4 +44,17 @@ class TestCommandController extends CommandController {
 		$this->sendAndExit(0);
 	}
 
+	/**
+	 * @param string $query
+	 */
+	public function searchByQueryCommand($query) {
+		$tweets = $this->tweetRepository->findByQuery($query);
+		foreach ($tweets as $tweet) {
+			$this->outputLine('---------------------------------');
+			$this->outputLine($tweet->getCreatedAt()->format('Y-m-d'));
+			$this->outputLine($tweet->getText());
+		}
+		$this->sendAndExit();
+	}
+
 }
