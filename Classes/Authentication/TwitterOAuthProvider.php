@@ -79,7 +79,7 @@ class TwitterOAuthProvider extends AbstractProvider {
 		}
 
 		if ($this->requestSignatureGenerator->getAuthToken() !== ObjectAccess::getPropertyPath($authenticationToken, 'credentials.oauth_token')) {
-			throw new UnsupportedAuthenticationTokenException('The given authentication token does not the one that started this authentication request.', 1426089556);
+			$authenticationToken->setAuthenticationStatus(TokenInterface::WRONG_CREDENTIALS);
 		}
 
 		$responseData = $this->verifyAccessToken(ObjectAccess::getPropertyPath($authenticationToken, 'credentials.oauth_verifier'));
