@@ -6,7 +6,7 @@
     "typo3/flow": "*"
   },
   "autoload": {
-    "psr-4": {
+    "psr-0": {
       "Flowpack\\TwitterApi\\": "Classes"
     }
   }
