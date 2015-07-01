@@ -15,7 +15,7 @@ use TYPO3\Flow\Http\Uri;
 class Application implements AuthenticationInterface {
 
 	/**
-	 * @Flow\Inject(package="Flowpack.TwitterApi", setting="authentication.application")
+	 * @Flow\InjectConfiguration(package="Flowpack.TwitterApi", path="authentication.application")
 	 * @var array
 	 */
 	protected $consumerCredentials;

@@ -14,7 +14,7 @@ use TYPO3\Flow\Utility\Arrays;
 class RequestSignatureGenerator {
 
 	/**
-	 * @Flow\Inject(package="Flowpack.TwitterApi", setting="authentication.application")
+	 * @Flow\InjectConfiguration(package="Flowpack.TwitterApi", path="authentication.application")
 	 * @var array
 	 */
 	protected $consumerCredentials;
