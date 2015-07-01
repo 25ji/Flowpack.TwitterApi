@@ -1,2 +1,2 @@
 roles:
-  'AuthenticatedTwitterUser': []
+  'Flowpack.TwitterApi:AuthenticatedUser': []
